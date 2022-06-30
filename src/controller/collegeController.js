@@ -16,12 +16,15 @@ const college = async function (req, res) {
         .send({ status: false, msg: "Body should  be not Empty.. " });
     }
 
+    
+
+   //<-------These validations for Mandatory fields--------->//
      if(!valid.isValid(name)){ 
         return res
            .status(400)
            .send({ status: false, msg: "Name field is mandatory" });
       }
-     
+      
 
     if (!valid.isValid(fullName)) {
       return res
@@ -36,22 +39,23 @@ const college = async function (req, res) {
     }
 
 
+    name = name.toLowerCase()
     let duplicateName = await collegeModel.findOne({ name: name });
     if (duplicateName) {
       return res
         .status(400)
         .send({ status: false, msg: "Name Already Exist." });
     }
-    
+
+    collegeData.name = name
+
+   //<--------These ensure that name and fullName in Alphabets------->//
     if (!valid.reg(name))
       return res
         .status(400)
         .send({ status: false, msg: "Please Use only Alphabets in name" });
 
-     name = name.toLowerCase()
-     collegeData.name = name
-
-
+   
     if (!valid.reg(fullName))
       return res
         .status(400)
@@ -71,9 +75,12 @@ const getColleges = async function (req, res) {
     if (Object.keys(req.query).length == 0) {
       return res
       .status(400)
-      .send({ status: false, msg: "Enter college Name.. " });
+      .send({ status: false, msg: "Enter college Name." });
     }
+
     college = college.toLowerCase()
+
+    
     let result = await collegeModel
       .findOne({ name: college })
       .select({ name: 1, fullName: 1, logoLink: 1, _id: 1 });

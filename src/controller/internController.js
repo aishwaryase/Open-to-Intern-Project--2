@@ -16,6 +16,7 @@ const intern = async function (req, res) {
         .send({ status: false, msg: "Body should  be not Empty.. " });
     }
 
+
     if (!valid.isValid(collegeName)) {
       return res
         .status(400)
@@ -26,9 +27,13 @@ const intern = async function (req, res) {
       return res.status(400).send({ status: false, msg: "Please enter valid college name." })
 
     let college = await collegeModel.findOne({ name: collegeName })
+
     if (!college) return res.status(400).send({ status: false, msg: "No such college found." })
     internData.collegeId = college["_id"]
 
+
+
+   //<-------These validations for Mandatory fields--------->//
     if (!valid.isValid(name)) {
       return res
         .status(400)
@@ -45,7 +50,7 @@ const intern = async function (req, res) {
         .send({ status: false, msg: "Mobile field is mandatory" });
     }
 
-
+ 
     if (!valid.reg(name))
       return res
         .status(400)
@@ -60,8 +65,10 @@ const intern = async function (req, res) {
         .send({ status: false, msg: "invalid phone number" });
     }
 
-    let duplicateEmail = await internModel.findOne({ email: email });
 
+    //<--------Checking Duplicate Email and Mobile--------->//
+
+    let duplicateEmail = await internModel.findOne({ email: email });
     if (duplicateEmail) {
       return res
         .status(400)
@@ -69,12 +76,14 @@ const intern = async function (req, res) {
     }
 
     let duplicatePhone = await internModel.findOne({ mobile: mobile });
-
     if (duplicatePhone) {
       return res
         .status(400)
         .send({ status: false, msg: "Phone Number Already Exist." });
     }
+
+
+   //<---------Checking Email Validation---------->//
     let validate = evalidator.isEmail(email);
     if (!validate) {
       return res
