@@ -8,7 +8,7 @@ const valid = require("../validation/validation")
 const college = async function (req, res) {
   try {
     let collegeData = req.body;
-    const {name, fullName, logoLink} = req.body
+    let {name, fullName, logoLink} = req.body
 
     if (Object.keys(collegeData).length == 0) {
       return res
@@ -21,8 +21,6 @@ const college = async function (req, res) {
            .status(400)
            .send({ status: false, msg: "Name field is mandatory" });
       }
-     
-      name = name.toLowerCase()
 
     if (!valid.isValid(fullName)) {
       return res
@@ -49,6 +47,7 @@ const college = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Please Use only Alphabets in name" });
 
+        name = name.toLowerCase()
 
     if (!valid.reg(fullName))
       return res
