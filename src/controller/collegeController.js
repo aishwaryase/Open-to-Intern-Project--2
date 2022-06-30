@@ -98,6 +98,7 @@ const getColleges = async function (req, res) {
     let name = result.name;
     let fullName = result.fullName;
     let logoLink = result.logoLink;
+    
     let internDetails = {
       name: name,
       fullName: fullName,
