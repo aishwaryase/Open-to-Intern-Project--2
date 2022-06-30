@@ -20,7 +20,7 @@ const intern = async function (req, res) {
     if (!valid.isValid(collegeName)) {
       return res
         .status(400)
-        .send({ status: false, msg: "CollegeId field is mandatory" });
+        .send({ status: false, msg: "CollegeName field is mandatory" });
     }
 
     if (!valid.reg(collegeName))
@@ -31,8 +31,7 @@ const intern = async function (req, res) {
     if (!college) return res.status(400).send({ status: false, msg: "No such college found." })
     internData.collegeId = college["_id"]
 
-
-
+    
    //<-------These validations for Mandatory fields--------->//
     if (!valid.isValid(name)) {
       return res
