@@ -2,11 +2,12 @@ const internModel = require("../models/internModel");
 const collegeModel = require("../models/collegeModel");
 const valid = require("../validation/validation")
 const evalidator = require("validator");
+const { ConnectionStates } = require("mongoose");
 
 const intern = async function (req, res) {
   try {
     let internData = req.body;
-    const { name, email, mobile, collegeName } = req.body
+    let { name, email, mobile, collegeName } = req.body
 
 
 
@@ -17,7 +18,7 @@ const intern = async function (req, res) {
     }
 
 
-    if (!valid.isValid(collegeName)) {
+    if(!valid.isValid(collegeName)) {
       return res
         .status(400)
         .send({ status: false, msg: "CollegeId field is mandatory" });
@@ -25,6 +26,9 @@ const intern = async function (req, res) {
 
     if (!valid.reg(collegeName))
       return res.status(400).send({ status: false, msg: "Please enter valid college name." })
+      
+      collegeName = collegeName.toLowerCase()
+    
 
     let college = await collegeModel.findOne({ name: collegeName })
 
