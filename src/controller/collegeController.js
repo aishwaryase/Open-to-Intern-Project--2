@@ -68,14 +68,12 @@ const college = async function (req, res) {
 const getColleges = async function (req, res) {
   try {
     let college = req.query.collegeName;
-    college = college.toLowerCase()
-
     if (Object.keys(req.query).length == 0) {
       return res
         .status(400)
         .send({ status: false, msg: "Enter college Name.. " });
     }
-
+    college = college.toLowerCase()
     let result = await collegeModel
       .findOne({ name: college })
       .select({ name: 1, fullName: 1, logoLink: 1, _id: 1 });
