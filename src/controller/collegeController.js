@@ -21,6 +21,7 @@ const college = async function (req, res) {
            .status(400)
            .send({ status: false, msg: "Name field is mandatory" });
       }
+     
 
     if (!valid.isValid(fullName)) {
       return res
@@ -47,7 +48,9 @@ const college = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Please Use only Alphabets in name" });
 
-        name = name.toLowerCase()
+     name = name.toLowerCase()
+     collegeData.name = name
+
 
     if (!valid.reg(fullName))
       return res
