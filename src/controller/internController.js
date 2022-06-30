@@ -1,14 +1,13 @@
 const internModel = require("../models/internModel");
-const evalidator = require("validator");
+const collegeModel = require("../models/collegeModel");
 const valid = require("../validation/validation")
-const mongoose = require('mongoose')
-const ObjectId = mongoose.Types.ObjectId;
+const evalidator = require("validator");
 
 const intern = async function (req, res) {
   try {
     let internData = req.body;
-    const {name , email, mobile , collegeId} = req.body 
-    
+    const { name, email, mobile, collegeName } = req.body
+
 
 
     if (Object.keys(internData).length == 0) {
@@ -16,6 +15,19 @@ const intern = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Body should  be not Empty.. " });
     }
+
+    if (!valid.isValid(collegeName)) {
+      return res
+        .status(400)
+        .send({ status: false, msg: "CollegeId field is mandatory" });
+    }
+
+    if (!valid.reg(collegeName))
+      return res.status(400).send({ status: false, msg: "Please enter valid college name." })
+
+    let college = await collegeModel.findOne({ name: collegeName })
+    if (!college) return res.status(400).send({ status: false, msg: "No such college found." })
+    internData.collegeId = college["_id"]
 
     if (!valid.isValid(name)) {
       return res
@@ -32,19 +44,6 @@ const intern = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Mobile field is mandatory" });
     }
-  
-
-    if (!valid.isValid(collegeId)) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "CollegeId field is mandatory" });
-    }
-
-
-    let Id = collegeId
-    if(Id.length != 24){
-      return res.status(400).send({status:false,msg: "invalid College Id."}) }
-
 
 
     if (!valid.reg(name))
@@ -61,7 +60,7 @@ const intern = async function (req, res) {
         .send({ status: false, msg: "invalid phone number" });
     }
 
-   let duplicateEmail = await internModel.findOne({ email: email });
+    let duplicateEmail = await internModel.findOne({ email: email });
 
     if (duplicateEmail) {
       return res
@@ -69,7 +68,7 @@ const intern = async function (req, res) {
         .send({ status: false, msg: "Email Already Exist." });
     }
 
-   let duplicatePhone = await internModel.findOne({ mobile: mobile });
+    let duplicatePhone = await internModel.findOne({ mobile: mobile });
 
     if (duplicatePhone) {
       return res
