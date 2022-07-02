@@ -10,9 +10,9 @@ const isValid = function(value) {
 const reg = function( value){
  
  return /^[A-Z a-z]+$/.test(value)
-
-
 }
+
 
 module.exports.isValid = isValid
 module.exports.reg = reg
+
