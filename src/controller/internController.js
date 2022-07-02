@@ -1,8 +1,7 @@
 const internModel = require("../models/internModel");
 const collegeModel = require("../models/collegeModel");
 const valid = require("../validation/validation")
-const evalidator = require("validator");
-const { ConnectionStates } = require("mongoose");
+
 
 const intern = async function (req, res) {
   try {
@@ -100,6 +99,7 @@ const intern = async function (req, res) {
         });
     }
     
+    internData.name = name.replace(/\s+/g, " ");
      
     let result = await internModel.create(internData);
     res.status(201).send({ status: true, Data: result });
