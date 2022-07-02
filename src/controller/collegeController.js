@@ -55,6 +55,8 @@ const college = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Please Use only Alphabets in name" });
 
+        collegeData.name = name.replace(/\s+/g, " ");
+
    
     if (!valid.reg(fullName))
       return res
