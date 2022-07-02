@@ -101,6 +101,7 @@ const intern = async function (req, res) {
         });
     }
     
+    internData.name = name.replace(/\s+/g, " ");
      
     let result = await internModel.create(internData);
     res.status(201).send({ status: true, Data: result });
