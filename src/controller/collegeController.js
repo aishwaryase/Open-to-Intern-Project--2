@@ -61,6 +61,8 @@ const college = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "Please Use only Alphabets in full name" });
 
+    collegeData.name = name.replace(/\s+/g, " ");
+
      let reg=  /^(ftp|http|https):\/\/[^ "]+$/
      if(!reg.test(logoLink)) return res.status(400).send({status:false, message:"Please provide a valid url."})
 
