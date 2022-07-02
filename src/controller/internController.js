@@ -6,7 +6,7 @@ const valid = require("../validation/validation")
 const intern = async function (req, res) {
   try {
     let internData = req.body;
-    let { name, email, mobile, collegeName } = req.body
+    let { name, email, mobile, collegeName } = internData
 
 
 

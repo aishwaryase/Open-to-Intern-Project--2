@@ -66,10 +66,12 @@ const college = async function (req, res) {
     collegeData.fullName = fullName.replace(/\s+/g, " ");
 
      let reg=  /^(ftp|http|https):\/\/[^ "]+$/
-     if(!reg.test(logoLink)) return res.status(400).send({status:false, message:"Please provide a valid url."})
+     if(!reg.test(logoLink)) 
+     return res.status(400).send({status:false, message:"Please provide a valid url."})
 
      let regex = /^https?:\/\/.*\/.*\.(png|gif|webp|jpeg|jpg)\??.*$/gmi
-     if(!regex.test(logoLink)) return res.status(400).send({status : false, msg : "Please Provide valid extension." })
+     if(!regex.test(logoLink))
+      return res.status(400).send({status : false, msg : "Please Provide valid extension." })
 
     let result = await collegeModel.create(collegeData);
     res.status(201).send({ status: true, Data: result });
@@ -88,7 +90,8 @@ const getColleges = async function (req, res) {
       .send({ status: false, msg: "CollegeName is Mandatory." });
     }
      
-    if(!college) return res.status(400).send({status :false , msg : "Enter College Name."})
+    if(!college)
+     return res.status(400).send({status :false , msg : "Enter College Name."})
     if (!valid.reg(college)) return res.status(400).send({status: false, msg: "Use Alphabets only."})
 
     college = college.toLowerCase()
